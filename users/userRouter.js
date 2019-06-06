@@ -71,7 +71,7 @@ router.get('/:id', async (req, res) => {
 router.get('/:id/posts', async (req, res) => {
     try {
         const {id} = req.params;
-        const posts = await usersDB.getUserPosts(id);
+        const posts = await userDB.getUserPosts(id);
 
         res.status(200).json(posts);
     } catch (err) {
