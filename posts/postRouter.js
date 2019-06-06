@@ -62,6 +62,18 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.put('/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const updatePost = await postDB.update(id, req.body);
+
+        updatePost ? 
+         res.status(200).json(updatePost) : res.status(404).end();
+    } catch(err) {
+        res.status(418).json({message: `I'm a teapot.`, err});
+    }
+});
+
 router.delete('/:id', async (req, res) => {
     try {
         const {id} = req.params;
@@ -74,9 +86,7 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
-    try
-});
+
 
 // custom middleware
 
