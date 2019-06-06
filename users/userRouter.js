@@ -111,7 +111,7 @@ router.put('/:id', validateUser, validateUserId, async (req, res) => {
         const updateUser = await userDB.update(id, req.body);
 
         updateUser
-        ? res.status(200).json(updateUser)
+        ? res.status(200).json({message: "successfully updated user"})
         : res.status(404).end()
     } catch(err) {
         res.status(418).json({message: `I'm a teapot.`, err});

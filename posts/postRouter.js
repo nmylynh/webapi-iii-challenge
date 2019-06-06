@@ -96,7 +96,7 @@ router.put('/:id', validateUserId, validatePost, async (req, res) => {
         const updatePost = await postDB.update(id, req.body);
 
         updatePost 
-        ? res.status(200).json(updatePost) 
+        ? res.status(200).json({message: "successfully updated post"}) 
         : res.status(404).end();
     } catch(err) {
         res.status(418).json({message: `I'm a teapot.`, err});
