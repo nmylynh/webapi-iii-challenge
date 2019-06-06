@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const postDB = require('./postDb');
-const userDB = require('../users/userDb');
+const postDB = require('../posts/postDb');
+const userDB = require('./userDb');
 
 // custom middle jessie ware
 
