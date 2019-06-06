@@ -72,7 +72,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', validateUserId, validatePost, async (req, res) => {
     try {
         const newPost = await postDB.insert(req.body);
         res.status(201).json(newPost);
@@ -81,7 +81,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateUserId, validatePost, async (req, res) => {
     try {
         const {id} = req.params;
         const updatePost = await postDB.update(id, req.body);
@@ -93,7 +93,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateUserId, async (req, res) => {
     try {
         const {id} = req.params;
         const success = await postDB.remove(id);
