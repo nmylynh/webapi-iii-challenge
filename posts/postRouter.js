@@ -33,6 +33,13 @@ const userDB = require('../users/userDb');
 //     });
 // });
 
+
+// custom middleware
+
+function validatePostId(req, res, next) {
+
+};
+
 //I wanted to try AYYYYY sync, it's lit
 router.get('/', async (req, res) => {
     try {
@@ -46,7 +53,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const {id} = req.params;
-        const post = await postDB.get(id);
+        const post = await postDB.getById(id);
         res.status(200).json(post);
     } catch(err) {
         res.status(418).json({message: `I'm a teapot.`, err});
@@ -86,12 +93,5 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-
-
-// custom middleware
-
-function validatePostId(req, res, next) {
-
-};
 
 module.exports = router;
