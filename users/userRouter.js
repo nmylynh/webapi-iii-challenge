@@ -48,13 +48,14 @@ const validateUser = (req, res, next) => {
 
 router.get('/', async (req, res) => {
     try {
-        const users = await usersDB.get();
+        const users = await userDB.get();
 
         res.status(200).json(users);
     } catch(err) {
         res.status(418).json({message: `I'm a teapot.`, err});
     }
 });
+
 
 router.get('/:id', async (req, res) => {
     try {
