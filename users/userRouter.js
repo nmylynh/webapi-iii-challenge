@@ -6,23 +6,29 @@ const userDB = require('./userDb');
 // custom middle jessie ware
 
 const validatePostProp = async (req, res, next) => {
+    try {
     const {user_id} = req.body;
     const user = await userDB.getById(user_id);
 
     user 
-    ? req.user = user.json() 
-    : res.status(400).json({message: "invalid user id"});
-    next();      
+    ? next()
+    : res.status(404).json({message: "invalid id"});  
+    } catch(err) {
+        res.status(400).json({message: "missing user id"});
+    }
 }
 
 const validateUserId = async (req, res, next) => {
+    try {
     const {id} = req.params;
     const user = await userDB.getById(id);
 
-    user
-    ? req.user = user.json()
-    : res.status(400).json({message: "invalid user id"});
-    next();
+    user 
+    ? next()
+    : res.status(404).json({message: "invalid id"});  
+    } catch(err) {
+        res.status(400).json({message: "missing user id"});
+    }
 }
 
 const validatePost = (req, res, next) => {
