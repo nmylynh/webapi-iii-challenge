@@ -45,12 +45,13 @@ const validateUserId = async (req, res, next) => {
     next();      
 }
 
+// i didn't want to write two error catchers i'm real lazy
 const validatePost = (req, res, next) => {
     const {user_id, text} = req.body;
     user_id && text ?
         next() :
         res.status(400).json({message: "missing post data or text field"});
-} // i didn't want to write two error catchers i'm real lazy
+} 
 
 //I wanted to try AYYYYY sync, it's lit
 router.get('/', async (req, res) => {
