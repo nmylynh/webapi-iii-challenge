@@ -39,18 +39,19 @@ const validateUserId = async (req, res, next) => {
     const {user_id} = req.body;
     const user = await userDB.get(user_id);
 
-    user ?
-        req.user = user.json() :
-        res.status(400).json({message: "invalid user id"});
+    user 
+    ? req.user = user.json() 
+    : res.status(400).json({message: "invalid user id"});
     next();      
 }
 
 // i didn't want to write two error catchers i'm real lazy
+
 const validatePost = (req, res, next) => {
     const {user_id, text} = req.body;
-    user_id && text ?
-        next() :
-        res.status(400).json({message: "missing post data or text field"});
+    user_id && text 
+    ? next() 
+    : res.status(400).json({message: "missing post data or text field"});
 } 
 
 //I wanted to try AYYYYY sync, it's lit
@@ -87,8 +88,9 @@ router.put('/:id', validateUserId, validatePost, async (req, res) => {
         const {id} = req.params;
         const updatePost = await postDB.update(id, req.body);
 
-        updatePost ? 
-         res.status(200).json(updatePost) : res.status(404).end();
+        updatePost 
+        ? res.status(200).json(updatePost) 
+        : res.status(404).end();
     } catch(err) {
         res.status(418).json({message: `I'm a teapot.`, err});
     }
