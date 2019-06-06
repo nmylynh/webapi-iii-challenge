@@ -5,7 +5,7 @@ const userDB = require('../users/userDb');
 
 // custom middle jessie ware
 
-const validateUserId = async (req, res, next) => {
+const validatePostProp = async (req, res, next) => {
     const {user_id} = req.body;
     const user = await userDB.getById(user_id);
 
@@ -15,14 +15,25 @@ const validateUserId = async (req, res, next) => {
     next();      
 }
 
+const validateUserId = async (req, res, next) => {
+    const {id} = req.params;
+    const user = await userDB.getById(id);
+
+    user
+    ? req.user = user.json()
+    : res.status(400).json({message: "invalid user id"});
+    next();
+}
+
 const validatePost = (req, res, next) => {
     const {user_id, text} = req.body;
 
-    user_id && text 
-    ? next() 
-    : res.status(400).json({message: "missing post data or text field"});
+    user_id
+    ? text
+    ? next()
+    : res.status(400).json({message: "missing text field"})
+    : res.status(400).json({message: "missing post data"});
 } 
-
 
 const validateUser = (req, res, next) => {
     const { name } = req.body;
@@ -77,7 +88,7 @@ router.post('/', validateUser, async (req, res) => {
     }
 });
 
-router.post('/:id/posts', validateUserId, validatePost, async (req, res) => {
+router.post('/:id/posts', validatePostProp, validatePost, async (req, res) => {
     try {
         const newPost = await postDB.insert(req.body);
 
@@ -87,7 +98,7 @@ router.post('/:id/posts', validateUserId, validatePost, async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateUser, validateUserId, async (req, res) => {
     try {
         const {id} = req.params;
         const updateUser = await userDB.update(id, req.body);
@@ -100,7 +111,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateUserId, async (req, res) => {
     try {
         const {id} = req.params;
         const success = await userDB.remove(id);
