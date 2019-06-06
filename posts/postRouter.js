@@ -36,13 +36,17 @@ const userDB = require('../users/userDb');
 // custom middle jessie ware
 
 const validateUserId = async (req, res, next) => {
-        const {user_id} = req.body;
-        const user = await userDB.get(user_id);
+    const {user_id} = req.body;
+    const user = await userDB.get(user_id);
 
-        user ?
-         req.user = user.json() :
-          res.status(400).json({message: "invalid user id"});
-        next();      
+    user ?
+        req.user = user.json() :
+        res.status(400).json({message: "invalid user id"});
+    next();      
+}
+
+const validatePost = async (req, res, next) => {
+
 }
 
 //I wanted to try AYYYYY sync, it's lit
