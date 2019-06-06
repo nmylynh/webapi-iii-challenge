@@ -17,15 +17,6 @@ const userDB = require('../users/userDb');
 //     });
 // });
 
-//I wanted to try async
-router.get('/', async (req, res) => {
-    try {
-        const posts = await postDB.get();
-        res.status(200).json(posts);
-    } catch(err) {
-        res.status(418).json(err);
-    }
-});
 
 // router.get('/:id', (req, res) => {
 //     const {id} = req.params;
@@ -42,28 +33,49 @@ router.get('/', async (req, res) => {
 //     });
 // });
 
+//I wanted to try AYYYYY sync, it's lit
+router.get('/', async (req, res) => {
+    try {
+        const posts = await postDB.get();
+        res.status(200).json(posts);
+    } catch(err) {
+        res.status(418).json('err');
+    }
+});
+
 router.get('/:id', async (req, res) => {
     try {
         const {id} = req.params;
         const post = await postDB.get(id);
         res.status(200).json(post);
     } catch(err) {
-        res.status(418).json(err);
+        res.status(418).json({message: `I'm a teapot.`, err});
     }
 });
 
 router.post('/', async (req, res) => {
-    try
-})
-router.delete('/:id', async (req, res) => {
     try {
-        const
+        const newPost = await postDB.insert(req.body);
+        res.status(201).json(newPost);
+    } catch(err) {
+        res.status(418).json({message: `I'm a teapot.`, err});
     }
-
 });
 
-router.put('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const success = await postDB.remove(id);
+        
+        success ?
+         res.status(204).end() : res.status(404).end();
+    } catch(err) {
+        res.status(418).json({message: `I'm a teapot.`, err});
+    }
+});
 
+router.put('/:id', async (req, res) => {
+    try
 });
 
 // custom middleware
