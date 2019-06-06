@@ -49,6 +49,7 @@ const validateUserId = async (req, res, next) => {
 
 const validatePost = (req, res, next) => {
     const {user_id, text} = req.body;
+    
     user_id && text 
     ? next() 
     : res.status(400).json({message: "missing post data or text field"});
@@ -58,9 +59,10 @@ const validatePost = (req, res, next) => {
 router.get('/', async (req, res) => {
     try {
         const posts = await postDB.get();
+
         res.status(200).json(posts);
     } catch(err) {
-        res.status(418).json('err');
+        res.status(418).json({message: `I'm a teapot.`, err});
     }
 });
 
@@ -68,6 +70,7 @@ router.get('/:id', async (req, res) => {
     try {
         const {id} = req.params;
         const post = await postDB.getById(id);
+
         res.status(200).json(post);
     } catch(err) {
         res.status(418).json({message: `I'm a teapot.`, err});
@@ -77,6 +80,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', validateUserId, validatePost, async (req, res) => {
     try {
         const newPost = await postDB.insert(req.body);
+
         res.status(201).json(newPost);
     } catch(err) {
         res.status(418).json({message: `I'm a teapot.`, err});
