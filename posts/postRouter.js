@@ -33,12 +33,17 @@ const userDB = require('../users/userDb');
 //     });
 // });
 
+// custom middle jessie ware
 
-// custom middleware
+const validateUserId = async (req, res, next) => {
+        const {user_id} = req.body;
+        const user = await userDB.get(user_id);
 
-function validatePostId(req, res, next) {
-
-};
+        user ?
+         req.user = user.json() :
+          res.status(400).json({message: "invalid user id"});
+        next();      
+}
 
 //I wanted to try AYYYYY sync, it's lit
 router.get('/', async (req, res) => {
